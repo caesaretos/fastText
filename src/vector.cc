@@ -12,6 +12,7 @@
 
 #include <cmath>
 #include <iomanip>
+#include <iostream>
 
 #include "matrix.h"
 
@@ -68,9 +69,13 @@ void Vector::addRow(const Matrix& A, int64_t i) {
 void Vector::mul(const Matrix& A, const Vector& vec) {
   assert(A.size(0) == size());
   assert(A.size(1) == vec.size());
+  std::cout << "hidden vector: " << vec << std::endl;
   for (int64_t i = 0; i < size(); i++) {
     data_[i] = A.dotRow(vec, i);
   }
+
+  std::cout << "CZR - printing output layer weight matrix: " << "\n";
+  A.dump(std::cout);
 }
 
 int64_t Vector::argmax() {
@@ -88,7 +93,7 @@ int64_t Vector::argmax() {
 std::ostream& operator<<(std::ostream& os, const Vector& v) {
   os << std::setprecision(5);
   for (int64_t j = 0; j < v.size(); j++) {
-    os << v[j] << ' ';
+    os << v[j] << ", ";
   }
   return os;
 }

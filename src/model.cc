@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <stdexcept>
+#include <iostream>
 
 namespace fasttext {
 
@@ -47,6 +48,9 @@ void Model::computeHidden(const std::vector<int32_t>& input, State& state)
     hidden.addRow(*wi_, *it);
   }
   hidden.mul(1.0 / input.size());
+
+  std::cout << "CZR - printing hidden layer weight matrix: " << "\n";
+  wi_->dump(std::cout);
 }
 
 void Model::predict(

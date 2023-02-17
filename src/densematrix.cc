@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include <thread>
 #include <utility>
+#include <iostream>
 #include "utils.h"
 #include "vector.h"
 
@@ -113,6 +114,15 @@ real DenseMatrix::dotRow(const Vector& vec, int64_t i) const {
   for (int64_t j = 0; j < n_; j++) {
     d += at(i, j) * vec[j];
   }
+
+  std::cout << "==========================================================\n";
+  std::cout << "CZR - \n out weight vector: {\n";
+  for (int64_t j = 0; j < n_; j++) {
+    std::cout << at(i, j) << ", ";
+  }
+  std::cout << "\n";
+  std::cout << "==========================================================\n";
+
   if (std::isnan(d)) {
     throw EncounteredNaNError();
   }
@@ -161,15 +171,18 @@ void DenseMatrix::load(std::istream& in) {
 
 void DenseMatrix::dump(std::ostream& out) const {
   out << m_ << " " << n_ << std::endl;
+  out << "{" << std::endl;
   for (int64_t i = 0; i < m_; i++) {
+    out << "{";
     for (int64_t j = 0; j < n_; j++) {
       if (j > 0) {
-        out << " ";
+        out << ", ";
       }
       out << at(i, j);
     }
-    out << std::endl;
+    out << "}," << std::endl;
   }
+  out << "}" << std::endl;
 };
 
 } // namespace fasttext
